@@ -36,6 +36,8 @@
     - ecommerce
     - credentials
     - discovery
+    - role: registrar
+      when: REGISTRAR_ENABLED
     - role: journals
       when: JOURNALS_ENABLED
     - oauth_client_setup

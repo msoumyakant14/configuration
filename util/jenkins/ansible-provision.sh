@@ -181,6 +181,15 @@ if [[ -z $journals_version ]]; then
   journals_version="master"
 fi
 
+# if [[ -z $registrar ]]; then
+#   registrar="false"
+# fi
+registrar="true"
+
+if [[ -z $registrar_version ]]; then
+  registrar_version="master"
+fi
+
 
 # Lowercase the dns name to deal with an ansible bug
 dns_name="${dns_name,,}"
@@ -201,6 +210,7 @@ configuration_version: $configuration_version
 demo_version: $demo_version
 THEMES_VERSION: $themes_version
 journals_version: $journals_version
+registrar_version: $registrar_version
 
 edx_ansible_source_repo: ${configuration_source_repo}
 edx_platform_repo: ${edx_platform_repo}
@@ -228,6 +238,12 @@ JOURNALS_SSL_NGINX_PORT: 443
 JOURNALS_VERSION: $journals_version
 JOURNALS_ENABLED: $journals
 JOURNALS_SANDBOX_BUILD: True
+
+REGISTRAR_NGINX_PORT: 80
+REGISTRAR_SSL_NGINX_PORT: 443
+REGISTRAR_VERSION: $registrar_version
+REGISTRAR_ENABLED: $registrar
+REGISTRAR_SANDBOX_BUILD: True
 
 VIDEO_PIPELINE_BASE_NGINX_PORT: 80
 VIDEO_PIPELINE_BASE_SSL_NGINX_PORT: 443
@@ -339,6 +355,12 @@ JOURNALS_ECOMMERCE_API_URL: "{{ JOURNALS_ECOMMERCE_BASE_URL }}/api/v2/"
 JOURNALS_ECOMMERCE_JOURNALS_API_URL: "{{ JOURNALS_ECOMMERCE_BASE_URL }}/journal/api/v1"
 journals_create_demo_data: true
 
+REGISTRAR_URL_ROOT: "https://registrar-{{ EDXAPP_LMS_BASE }}"
+REGISTRAR_API_ROOT: "https://registrar-{{ EDXAPP_LMS_BASE }}/api"
+REGISTRAR_DISCOVERY_BASE_URL: "https://discovery-{{ EDXAPP_LMS_BASE }}"
+REGISTRAR_LMS_BASE_URL: "https://{{ EDXAPP_LMS_BASE }}"
+REGISTRAR_SOCIAL_AUTH_REDIRECT_IS_HTTPS: true
+
 DISCOVERY_URL_ROOT: "https://discovery-${deploy_host}"
 DISCOVERY_SOCIAL_AUTH_REDIRECT_IS_HTTPS: true
 
@@ -408,7 +430,7 @@ veda_encode_worker=${video_encode_worker:-false}
 video_pipeline_integration=${video_pipeline:-false}
 
 declare -A deploy
-plays="edxapp forum ecommerce credentials discovery journals analyticsapi veda_web_frontend veda_pipeline_worker veda_encode_worker video_pipeline_integration notifier xqueue xserver certs demo testcourses"
+plays="edxapp forum ecommerce credentials discovery journals analyticsapi veda_web_frontend veda_pipeline_worker veda_encode_worker video_pipeline_integration notifier xqueue certs demo testcourses registrar"
 
 for play in $plays; do
     deploy[$play]=${!play}
