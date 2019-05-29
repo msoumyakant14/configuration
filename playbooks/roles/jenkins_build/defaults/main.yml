@@ -31,7 +31,7 @@ build_jenkins_configuration_scripts:
 # plugins
 build_jenkins_plugins_list:
   - name: 'analysis-core'
-    version: '1.95'
+    version: '1.96'
     group: 'org.jvnet.hudson.plugins'
   - name: 'ansicolor'
     version: '0.5.2'
@@ -225,9 +225,6 @@ build_jenkins_plugins_list:
   - name: 'ssh-slaves'
     version: '1.28.1'
     group: 'org.jenkins-ci.plugins'
-  - name: 'analysis-core'
-    version: '1.96'
-    group: 'org.jvnet.hudson.plugins'
   - name: 'subversion'
     version: '2.10.3'
     group: 'org.jenkins-ci.plugins'
