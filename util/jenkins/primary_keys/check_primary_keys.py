@@ -6,6 +6,8 @@ import pymysql
 import click
 
 MAX_TRIES = 5
+NAMESPACE = "LogMetrics"
+METRIC_NAME = "primary-keys-for-db-rds"
 
 metric_data = """
 MetricData = [
@@ -30,7 +32,7 @@ class EC2BotoWrapper:
         return self.client.describe_regions()
 
 
-class CWBotoWrapper:
+class CwBotoWrapper():
     def __init__(self):
         self.client = boto3.client('cloudwatch')
 
@@ -95,7 +97,7 @@ def get_rds_from_all_regions():
     return rds_list
 
 
-def check_table_growth(rds_list, username, password):
+def check_primary_keys(rds_list, username, password):
     """
     :param rds_list:
     :param username:
@@ -162,11 +164,9 @@ def controller(username, password):
 
     # get list of all the RDSes across all the regions and deployments
     rds_list = get_rds_from_all_regions()
-    table_list = check_table_growth(rds_list, username, password)
-    if len(table_list) > 0:
-        format_string = "{:<40}{:<20}{:<50}{}"
-        print(format_string.format("RDS Name","Database Name", "Table Name", "Size"))
-        for items in table_list:
-            print(format_string.format(items["rds"], items["db"], items["table"], str(items["size"]) + " MB"))
-        exit(1)
+    table_list = check_primary_keys(rds_list, username, password)
+    cloudwatch = CwBotoWrapper()
+    response = cloudwatch.list_metrics(Namespace=NAMESPACE,
+                                       MetricName=METRIC_NAME)
+    
     exit(0)
