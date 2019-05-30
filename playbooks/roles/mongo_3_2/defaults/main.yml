@@ -18,7 +18,7 @@ MONGODB_REPO: "deb http://repo.mongodb.org/apt/ubuntu {{ ansible_distribution_re
 # Key id taken from https://docs.mongodb.com/v3.2/tutorial/install-mongodb-on-ubuntu/
 # Changes with each major mongo release, so must be updated with Mongo upgrade
 MONGODB_APT_KEY: "EA312927"
-MONGODB_APT_KEYSERVER: "keyserver.ubuntu.com"
+MONGODB_APT_KEYSERVER: "hkp://keyserver.ubuntu.com:80"
 
 mongodb_debian_pkgs:
   - "mongodb-org={{ mongo_version }}"
